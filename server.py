@@ -1,9 +1,6 @@
 import re
 
-from flask import Flask
-from flask import redirect
-from flask import render_template
-from flask import request, abort, url_for
+from flask import Flask, redirect, render_template, request, abort, url_for
 
 import data_manager
 from bonus_questions import SAMPLE_QUESTIONS
@@ -152,18 +149,6 @@ def add_comment_to_answer(answer_id):
         return redirect(f'/question/{question_id}')
     return render_template("new_comment.html", answers=answer[0])
 
-
-# @app.route('/question/<question_id>/delete')
-# def delete_question(comment_id):
-#     comment = data_manager.get_comment(comment_id)[0]
-#     answer_id = comment["answer_id"]
-#     question_id = comment["question_id"]
-#     data_manager.delete_comment(comment_id)
-#
-#     data_manager.delete_answer(answer_id)
-#
-#     data_manager.delete_question(question_id)
-#     return redirect('/list')
 
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
