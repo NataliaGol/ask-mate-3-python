@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Answer to question</title>
+</head>
+<body>
+<div class="content">
+    <link rel="stylesheet" href="/static/question.css">
+    <h1>ASK MATE</h1>
+
+    <h2>Answer to question:</h2>
+    <section>
+        <p>{{ answer.message }}</p>
+        <button onclick="location.href='/answer/{{ answer.id }}/edit-page'" type="button" style="float: right;">Edit
+        </button>
+        <button onclick="location.href='/answer/{{ answer.id }}/new-comment'" type="button" style="float: right;">Add
+            comment to answer
+        </button>
+        <br>
+        <br>
+
+    </section>
+</div>
+</body>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/question.css">
+    <title>ASK MATE</title>
+
+</head>
+<body>
+<div class="content">
+    <h1>ASK MATE</h1>
+
+    <h2>Results of searching for "{{ search_phrase }}":</h2>
+    <section>
+
+        {% for question in questions %}
+
+            <div>
+                ID: {{ question.question_id }}
+            </div>
+            <div>
+                <strong>{{ question.title }}</strong>
+                <strong>
+                    {% set title_items = split_ignore_case(search_phrase, question.title) %}
+                    {% for item in title_items %}
+                        {{ item }}
+                        {% if not loop.last %}
+                            <span class="search_phrase">{{ search_phrase }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </strong>
+            </div>
+            <div>
+                submitted: {{ question.submission_time }}
+            </div>
+            <br>
+            <div>
+                {% set message_items = split_ignore_case(search_phrase, question.message) %}
+                {% for item in message_items %}
+                    {{ item }}
+                    {% if not loop.last %}
+                        <span class="search_phrase">{{ search_phrase }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            </section>
+            <h2>Results in answers:</h2>
+            <section>
+            <ul>
+                {% for answer in answers %}
+                    <li>
+                        {% if question.id == answer.question_id %}
+                            {% set question_items = split_ignore_case(search_phrase, answer.message) %}
+                            {% for item in question_items %}
+                                {{ item }}
+                                {% if not loop.last %}
+                                    <span class="search_phrase">{{ search_phrase }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+
+            </ul>
+        {% endfor %}
+        </section>
+    <br>
+
+    <form action='/list'>
+        <input class='button' type='submit' value='Back'>
+
+    </form>
+</div>
+</body>
+</html>

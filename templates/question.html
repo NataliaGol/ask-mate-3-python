@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question with answer</title>
+</head>
+<body>
+<div class="content">
+    <link rel="stylesheet" href="/static/question.css">
+
+    <h1>ASK MATE</h1>
+    <h2>Question details:</h2>
+    <section>
+        <h3>{{ question.title }}</h3>
+
+
+        <p>{{ question.message }}</p>
+        <br>
+        <div>
+            <span><strong>Asked</strong> {{ question.submission_time }}</span><br>
+            <span><strong>Viewed</strong> {{ question.view_number }} times</span>
+        </div>
+        <br>
+        <br>
+        <h3>VOTING</h3>
+        <br>
+        <div class="answers-container">
+            <div class="ans-votes">
+                <a href="/question/{{ question.id }}/upvote">
+                    <img src="/static/images/arrow-up.svg" alt="arrow-up">
+                </a>
+                <p class="vote-num">{{ question.vote_number }}</p>
+                <a href="/question/{{ question.id }}/down-vote">
+                    <img src="/static/images/arrow-down.svg" alt="arrow-down">
+                </a>
+            </div>
+            <div class="ans-details">
+
+                <button onclick="location.href='/question/{{ question.id }}/delete'" type="button"
+                        style="float: right;">Delete question
+                </button>
+                <button onclick="location.href='/question/{{ question.id }}/edit-page'" type="button"
+                        style="float: right;">Edit
+                </button>
+                <br/>
+                <br/>
+            </div>
+        </div>
+    </section>
+    <h2>Answers to question:</h2>
+    <button onclick="location.href='/question/{{ question.id }}/new-answer'" type="button">Add answer to question
+    </button>
+
+    {% for answer in answers %}
+
+        <section>
+            <div class="answers-container">
+                <div class="ans-votes">
+                    <a href="/answer/{{ answer.id }}/upvote">
+                        <img src="/static/images/arrow-up.svg" alt="arrow-up">
+                    </a>
+                    <p class="vote-num">{{ answer.vote_number }}</p>
+                    <a href="/answer/{{ answer.id }}/down-vote" methods="POST">
+                        <img src="/static/images/arrow-down.svg" alt="arrow-down">
+                    </a>
+                </div>
+                <ul>
+                    <li>
+                        <div class="ans-message"><a href="/answer/{{ answer.id }}"
+                                                    title="{{ answer.message }}">{{ answer.message }}</a></div>
+                        <button onclick="location.href='/answer/{{ answer.id }}/delete'" type="button"
+                                style="float: right;">Delete answer
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    {% endfor %}
+
+    <h2>Comments to question:</h2>
+    <section>
+        {% for comment in comments %}
+            <ul>
+                {{ comment.message }}
+                <button onclick="location.href='/comment/{{ comment.id }}/delete'" type="button" style="float: right;">
+                    Delete comment
+                </button>
+                <button onclick="location.href='/comment/{{ comment.id }}/edit'" type="button" style="float: right;">
+                    Edit comment
+                </button>
+            </ul>
+        {% endfor %}
+    </section>
+    <button onclick="location.href='/question/{{ question.id }}/new-comment'" type="button">Add comment to question
+    </button>
+
+    <h2>Tags list:</h2>
+    <section>
+        {% for tag in tags %}
+            <ul>
+                {{ tag.id }} {{ tag.name }}
+                <button onclick="location.href='/question/{{ question.id }}/tag/{{ tag.id }}/delete' " type="button"
+                        style="float: right;">Delete tag
+                </button>
+            </ul>
+
+        {% endfor %}
+    </section>
+    <button onclick="location.href='/question/{{ question.id }}/create_new_tag'" type="button">Add new tag</button>
+</div>
+</body>
+</html>

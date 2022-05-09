@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add question</title>
+
+</head>
+<body>
+<div class="content">
+    <link rel="stylesheet" href="/static/question.css">
+    <h1>ASK MATE</h1>
+
+    <h2>Add new question</h2>
+    <form action="/add-question" method="post">
+        <label for="title">Title:<br></label><br>
+        <textarea id="title" name="title" rows="2" cols="70"></textarea><br>
+        <br>
+        <label for="message">Question:<br></label><br>
+        <textarea id="message" name="message" rows="8" cols="70"></textarea>
+        <br>
+        <button type="submit" style="float: right;">Submit your question</button>
+    </form>
+    <br>
+    <br>
+
+</div>
+</body>
+</html>

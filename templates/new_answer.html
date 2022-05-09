@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="/static/question.css">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Your new answer</title>
+</head>
+<body>
+<div class="content">
+
+    <h1>ASK MATE</h1>
+
+    <section>
+        <h3>{{ question.title }}</h3> <br/>
+        <p>{{ question.message }}</p>
+    </section>
+    <h2> Add your answer: </h2><br>
+
+    <form action="" method="POST">
+        <label>
+            <input type="text" name="message">
+        </label>
+        <input type="submit" value="Add!">
+
+    </form>
+</div>
+</body>
+</html>
