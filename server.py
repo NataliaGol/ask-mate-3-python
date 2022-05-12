@@ -1,9 +1,10 @@
 import re
 
-from flask import Flask, redirect, render_template, request, abort, url_for
+from flask import Flask, redirect, render_template, request, abort, url_for, flash
 
 import data_manager
 from bonus_questions import SAMPLE_QUESTIONS
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -236,6 +237,36 @@ def down_vote_answer(answer_id):
 @app.route("/bonus-questions")
 def main():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register_user():
+    global register_message
+    register_form = {}
+    if request.method == 'POST':
+        if 'full_name' in request.form and 'user_name' in request.form and 'password' in request.form and 'repeat_password' in request.form and 'email' in request.form:
+            if register_form['repeat_password'] == request.form['repeat_password']:
+                register_form['full_name'] = request.form['full_name']
+                register_form['user_name'] = request.form['user_name']
+                register_form['password'] = request.form['password']
+                register_form['email'] = request.form['email']
+                register_message = data_manager.check_user(register_form)
+
+
+            else:
+                return render_template("register.html", pass_message='passwords are not the same')
+        return render_template("register.html", register_message=register_message)
+
+    else:
+        return render_template("register.html")
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':

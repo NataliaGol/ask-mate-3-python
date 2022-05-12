@@ -1,4 +1,5 @@
 import database_common
+import bcrypt
 
 
 @database_common.connection_handler
@@ -319,3 +320,33 @@ def update_question(cursor, question):
         question['message'],
         question['id'],
     ))
+
+
+@database_common.connection_handler
+def check_user(cursor, register_form):
+    cursor.execute("""
+     SELECT user_name, email FROM users WHERE user_name = '%s' OR email = '%s'
+    """ % (register_form['user_name'], register_form['email']))
+
+    compare_result = cursor.fetchall()
+    if len(compare_result) == 0:
+        register_user(register_form)
+        return 'registration successful'
+    else:
+        return 'this user already exists'
+
+@database_common.connection_handler
+def register_user(cursor, register_form):
+    hashed_password = hash_password(register_form['password'])
+    cursor.execute("""
+                        INSERT INTO users (full_name, user_name, password, email) VALUES ('%s','%s','%s','%s')"""
+                   % ( register_form['full_name'], register_form['user_name'], hashed_password,register_form['email']))
+
+
+def hash_password(text):
+    hashed = bcrypt.hashpw(text.encode('utf-8'), bcrypt.gensalt())
+    return hashed.decode('utf-8')
+
+
+
+

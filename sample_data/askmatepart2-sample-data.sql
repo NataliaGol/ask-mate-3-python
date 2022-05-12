@@ -15,6 +15,22 @@ ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS pk_ques
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_question_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.tag DROP CONSTRAINT IF EXISTS pk_tag_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_tag_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS pk_user_id CASCADE;
+
+DROP TABLE IF EXISTS public.users;
+CREATE TABLE users
+(
+    id              serial                      NOT NULL,
+    full_name       text                        NOT NULL,
+    user_name       text                        NOT NULL,
+    password        text                       NOT NULL,
+    email           text                        NOT NULL
+
+);
+
+
+
+
 
 DROP TABLE IF EXISTS public.question;
 CREATE TABLE question
@@ -77,6 +93,9 @@ ALTER TABLE ONLY question
 
 ALTER TABLE ONLY question_tag
     ADD CONSTRAINT pk_question_tag_id PRIMARY KEY (question_id, tag_id);
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT pk_user_id PRIMARY KEY (id);
 
 ALTER TABLE ONLY tag
     ADD CONSTRAINT pk_tag_id PRIMARY KEY (id);
@@ -152,3 +171,5 @@ SELECT pg_catalog.setval('tag_id_seq', 3, true);
 INSERT INTO question_tag VALUES (0, 1);
 INSERT INTO question_tag VALUES (1, 3);
 INSERT INTO question_tag VALUES (2, 3);
+
+INSERT INTO users VALUES (0, 'ewa markowska', 'ewa m', 'lala2', 'ewa.markowska3@gmail.com');

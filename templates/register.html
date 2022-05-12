@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Register</title>
+    <link rel="stylesheet" href="/static/question.css">
+
+</head>
+<div class="content">
+<h1>Register</h1>
+    <form>
+        <form name="register" action='/register' method='POST'>
+
+
+        <label for="full_name">Full name:<br></label><br>
+        <textarea id="full_name" name="full_name" rows="2" cols="70"></textarea><br>
+        <br>
+        <label for="user_name">User name:<br></label><br>
+        <textarea id="user_name" name="user_name" rows="2" cols="70"></textarea><br>
+        <br>
+        <label for="password">Password:<br></label><br>
+        <textarea id="password" name="password" rows="2" cols="70"></textarea><br>
+        <br>
+        <label for="repeat_password">Repeat password:<br></label><br>
+        <textarea id="repeat_password" name="repeat_password" rows="2" cols="70"></textarea><br>
+        <br>
+        <label for="email">Email:<br></label><br>
+        <textarea id="email" name="email" rows="2" cols="70"></textarea><br>
+
+        <button type="submit" style="float: right;">Register</button>
+        <a href='/list' id='return button' ><input type='button' style="float: right;" class="button" value='Return to Questions'></a></p>
+
+             <p>{{ pass_message }}{{ register_message }}</p>
+    </form>
+
+    </form>
+</form>
+</div>
