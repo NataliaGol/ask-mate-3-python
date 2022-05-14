@@ -319,3 +319,22 @@ def update_question(cursor, question):
         question['message'],
         question['id'],
     ))
+
+
+@database_common.connection_handler
+def register(cursor, full_name, user_name, email, _hashed_password):
+    query = """
+        INSERT INTO users (full_name, user_name, email, _hashed_password) values(%s,%s, %s,%s);"""
+    cursor.execute(query, (full_name, user_name, email, _hashed_password,))
+
+
+@database_common.connection_handler
+def get_user(cursor, user_name):
+    query = """
+            SELECT *
+            FROM users
+            WHERE user_name = %s
+            ORDER BY id DESC;"""
+    cursor.execute(query, (user_name,))
+    return cursor.fetchone()
+

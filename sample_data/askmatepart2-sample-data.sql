@@ -65,6 +65,16 @@ CREATE TABLE tag
     name text
 );
 
+DROP TABLE IF EXISTS public.users;
+CREATE TABLE users
+(
+    id   serial NOT NULL,
+    full_name text NOT NULL,
+    user_name text NOT NULL,
+    _hashed_password text NOT NULL,
+    email text NOT NULL
+);
+
 
 ALTER TABLE ONLY answer
     ADD CONSTRAINT pk_answer_id PRIMARY KEY (id);

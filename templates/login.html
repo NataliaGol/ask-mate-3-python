@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+</head>
+<body>
+
+<div class="content">
+    <link rel="stylesheet" href="/static/question.css">
+    {%  for message in get_flashed_messages() %}
+            {{ message }}
+    {% endfor %}
+    <h1>ASK MATE</h1>
+
+    <h2> Log in</h2>
+    <form action='/login' method="post">
+
+        <label for="user_name">User name:<br></label><br>
+        <input type="text" id="user_name" name="user_name"><br>
+        <br>
+        <label for="_hashed_password">Password:<br></label><br>
+        <input type="password" id="_hashed_password" name="_hashed_password" ><br>
+        <br>
+
+        <button type="submit" style="float: right;">Log in</button>
+    </form>
+    <br>
+    <br>
+
+</div>
+</body>
+</html>

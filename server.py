@@ -1,11 +1,13 @@
 import re
 
-from flask import Flask, redirect, render_template, request, abort, url_for
+import bcrypt
+from flask import Flask, redirect, render_template, request, abort, url_for, session, flash
 
 import data_manager
 from bonus_questions import SAMPLE_QUESTIONS
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "dfsdfefewreew"
 
 
 @app.route('/')
@@ -14,7 +16,7 @@ def index():
     return render_template('index.html', questions=q)
 
 
-@app.route('/list')
+@app.route('/list', methods= ['GET', 'POST'])
 def show_questions():
     q = data_manager.get_questions()
     return render_template('questions.html', questions=q)
@@ -236,6 +238,70 @@ def down_vote_answer(answer_id):
 @app.route("/bonus-questions")
 def main():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
+
+
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    if request.method == "POST":
+        user_name = request.form['user_name']
+        password = request.form['_hashed_password']
+        full_name = request.form['full_name']
+        email = request.form['email']
+        repeated_password = request.form['repeated_password']
+
+        user = data_manager.get_user(user_name)
+        if user is None:
+
+            if password == repeated_password:
+                data_manager.register(full_name, user_name, email, hash_password(password))
+                flash(
+                    'You are now registered!')  # jak zrobic żeby ten flash wyświetlał się na stronie do której przekierowuje??
+                return render_template('questions.html')
+            else:
+                flash('Passwords are not the same, try again!')
+                return render_template('register.html')
+        else:
+            flash('You are already registered! Log in!')  # jak zrobic żeby ten flash wyświetlał się na stronie do której przekierowuje??
+            return render_template('login.html')
+
+def hash_password(password):
+    password = request.form['_hashed_password']
+    hashed_password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+    return hashed_password.decode('utf-8')
+
+
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        user_name = request.form['user_name']
+        password = request.form['_hashed_password']
+
+        user = data_manager.get_user(user_name)
+        if user is None:
+            return render_template('register.html')
+        else:
+            hashed = user['_hashed_password']
+            if bcrypt.checkpw(password.encode('utf8'), hashed.encode('utf-8')):
+
+                session['user_name'] = user_name
+                return render_template('questions.html')
+            else:
+                flash('Your password is wrong, try again!')
+                return render_template('login.html')
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
