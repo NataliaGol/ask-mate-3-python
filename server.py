@@ -260,13 +260,13 @@ def register():
                 data_manager.register(full_name, user_name, email, hash_password(password))
                 flash(
                     'You are now registered!')  # jak zrobic żeby ten flash wyświetlał się na stronie do której przekierowuje??
-                return render_template('questions.html')
+                return redirect(url_for('show_questions'))
             else:
                 flash('Passwords are not the same, try again!')
                 return render_template('register.html')
         else:
             flash('You are already registered! Log in!')  # jak zrobic żeby ten flash wyświetlał się na stronie do której przekierowuje??
-            return render_template('login.html')
+            return redirect('/login')
 
 def hash_password(password):
     password = request.form['_hashed_password']

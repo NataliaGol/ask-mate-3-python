@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/static/question.css">
+    {%  for message in get_flashed_messages() %}
+            {{ message }}
+    {% endfor %}
     <meta charset="UTF-8">
     <title>Questions</title>
 </head>
