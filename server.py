@@ -16,10 +16,23 @@ def index():
     return render_template('index.html', questions=q)
 
 
-@app.route('/list', methods= ['GET', 'POST'])
+@app.route('/list', methods=['GET', 'POST'])
 def show_questions():
     q = data_manager.get_questions()
-    return render_template('questions.html', questions=q)
+    show_users_link = logged_in()
+    return render_template('questions.html', questions=q, show_users_link=show_users_link)
+
+
+@app.route('/users')
+def show_users():
+    if not logged_in():
+        abort(401)
+    users = data_manager.get_users()
+    return render_template('users.html', users=users)
+
+
+def logged_in():
+    return 'user_name' in session
 
 
 @app.route("/question/<int:question_id>")
@@ -240,8 +253,6 @@ def main():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
 
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == 'GET':
@@ -268,40 +279,29 @@ def register():
             flash('You are already registered! Log in!')  # jak zrobic żeby ten flash wyświetlał się na stronie do której przekierowuje??
             return redirect('/login')
 
+
 def hash_password(password):
-    password = request.form['_hashed_password']
     hashed_password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
     return hashed_password.decode('utf-8')
-
-
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
-    else:
-        user_name = request.form['user_name']
-        password = request.form['_hashed_password']
 
-        user = data_manager.get_user(user_name)
-        if user is None:
-            return render_template('register.html')
-        else:
-            hashed = user['_hashed_password']
-            if bcrypt.checkpw(password.encode('utf8'), hashed.encode('utf-8')):
+    user_name = request.form['user_name']
+    user = data_manager.get_user(user_name)
+    if user is None:
+        return redirect('/register')
 
-                session['user_name'] = user_name
-                return render_template('questions.html')
-            else:
-                flash('Your password is wrong, try again!')
-                return render_template('login.html')
+    password = request.form['_hashed_password']
+    hashed = user['_hashed_password']
+    if bcrypt.checkpw(password.encode('utf8'), hashed.encode('utf-8')):
+        session['user_name'] = user_name
+        return redirect('/list')
 
-
-
-
-
-
+    flash('Your password is wrong, try again!')
 
 
 if __name__ == '__main__':

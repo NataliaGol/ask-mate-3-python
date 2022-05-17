@@ -72,7 +72,8 @@ CREATE TABLE users
     full_name text NOT NULL,
     user_name text NOT NULL,
     _hashed_password text NOT NULL,
-    email text NOT NULL
+    email text NOT NULL,
+    registration_date timestamp without time zone DEFAULT Current_timestamp
 );
 
 
@@ -162,3 +163,5 @@ SELECT pg_catalog.setval('tag_id_seq', 3, true);
 INSERT INTO question_tag VALUES (0, 1);
 INSERT INTO question_tag VALUES (1, 3);
 INSERT INTO question_tag VALUES (2, 3);
+
+insert into users values ('a', 'a', '$2b$12$lsoBRsAlMAgizzBtaKZpSOP9p2oNFhyttYqm8BAhDw5iQnGzmAcLi', 'a')

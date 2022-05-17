@@ -12,6 +12,9 @@
 
 <div class="content">
     <h1>ASK MATE</h1>
+    {% if show_users_link %}
+        <button onclick="location.href='/users'" type="button">Show all users</button>
+    {% endif %}
     <button onclick="location.href='/add-question'" type="button">Add question</button>
 
     <h2>Questions</h2>

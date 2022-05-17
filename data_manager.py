@@ -338,3 +338,8 @@ def get_user(cursor, user_name):
     cursor.execute(query, (user_name,))
     return cursor.fetchone()
 
+
+@database_common.connection_handler
+def get_users(cursor):
+    cursor.execute('SELECT user_name, registration_date FROM users;')
+    return cursor.fetchall()

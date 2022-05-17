@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+{% for user in users %}
+    <section>
+        <div> {{ user.user_name }}</div>
+        <div> {{ user.registration_date }}</div>
+        {#        <div> {{ numbers_of_asked_questions }} </div>#}
+        {#        <div> {{ number_of_answers}} </div>#}
+        {#        <div> {{ number_of_comments}} </div>#}
+        {#        <div> {{ reputation}} </div>#}
+    </section>
+{% endfor %}
+<button onclick="location.href='/list'" type="button">Questions</button>
+</body>
+</html>
