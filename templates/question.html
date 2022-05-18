@@ -12,13 +12,13 @@
     <h2>Question details:</h2>
     <section>
         <h3>{{ question.title }}</h3>
-
-
         <p>{{ question.message }}</p>
         <br>
         <div>
             <span><strong>Asked</strong> {{ question.submission_time }}</span><br>
-            <span><strong>Viewed</strong> {{ question.view_number }} times</span>
+            <span><strong>Viewed</strong> {{ question.view_number }} times</span><br>
+            <span><strong>Submitted by:</strong> {{ author }} </span>
+
         </div>
         <br>
         <br>

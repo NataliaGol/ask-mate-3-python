@@ -1,3 +1,5 @@
+from psycopg2.extras import RealDictCursor
+import json
 import database_common
 import bcrypt
 
@@ -14,17 +16,17 @@ def get_question(cursor, question_id):
 
 
 @database_common.connection_handler
-def insert_question(cursor, title, message):
+def insert_question(cursor, title, message, author):
     query = """
-        INSERT INTO question (title,message) values(%s,%s);"""
-    cursor.execute(query, (title, message,))
+        INSERT INTO question (title,message, author) values(%s,%s,%s);"""
+    cursor.execute(query, (title, message,author))
 
 
 @database_common.connection_handler
-def insert_answer(cursor, message, question_id):
+def insert_answer(cursor, message, question_id, author):
     query = """
-        INSERT INTO answer (message, question_id) values(%s, %s);"""
-    cursor.execute(query, (message, question_id,))
+        INSERT INTO answer (message, question_id, author) values(%s, %s, %s);"""
+    cursor.execute(query, (message, question_id, author))
 
 
 @database_common.connection_handler
@@ -165,10 +167,10 @@ def insert_comment_answer(cursor, message, answer_id, question_id):
 
 
 @database_common.connection_handler
-def insert_comment_question(cursor, message, question_id):
+def insert_comment_question(cursor, message, question_id, author):
     query = """
-        INSERT INTO comment (message, question_id) values(%s, %s);"""
-    cursor.execute(query, (message, question_id,))
+        INSERT INTO comment (message, question_id, author) values(%s, %s, %s);"""
+    cursor.execute(query, (message, question_id,author))
 
 
 @database_common.connection_handler
@@ -323,30 +325,73 @@ def update_question(cursor, question):
 
 
 @database_common.connection_handler
-def check_user(cursor, register_form):
-    cursor.execute("""
-     SELECT user_name, email FROM users WHERE user_name = '%s' OR email = '%s'
-    """ % (register_form['user_name'], register_form['email']))
+def register(cursor, full_name, user_name, email, _hashed_password):
+    query = """
+        INSERT INTO users (full_name, user_name, email, _hashed_password) values(%s,%s, %s,%s);"""
+    cursor.execute(query, (full_name, user_name, email, _hashed_password,))
 
-    compare_result = cursor.fetchall()
-    if len(compare_result) == 0:
-        register_user(register_form)
-        return 'registration successful'
-    else:
-        return 'this user already exists'
 
 @database_common.connection_handler
-def register_user(cursor, register_form):
-    hashed_password = hash_password(register_form['password'])
-    cursor.execute("""
-                        INSERT INTO users (full_name, user_name, password, email) VALUES ('%s','%s','%s','%s')"""
-                   % ( register_form['full_name'], register_form['user_name'], hashed_password,register_form['email']))
+def get_user(cursor, user_name):
+    query = """
+            SELECT *
+            FROM users
+            WHERE user_name = %s
+            ORDER BY id DESC;"""
+    cursor.execute(query, (user_name,))
+    return cursor.fetchone()
 
 
-def hash_password(text):
-    hashed = bcrypt.hashpw(text.encode('utf-8'), bcrypt.gensalt())
-    return hashed.decode('utf-8')
+@database_common.connection_handler
+def get_author(cursor, question_id):
+    query = """
+                SELECT q.author
+                FROM question q
+                WHERE q.id = %s
+               ;"""
+    cursor.execute(query, (question_id,))
+    return cursor.fetchall()[0]
 
+
+@database_common.connection_handler
+def get_question_by_author(cursor, author):
+    query = """
+        SELECT *
+        FROM question q
+        WHERE author = %s ;"""
+
+    cursor.execute(query, (author,))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_answer_by_author(cursor, author):
+    query = """
+        SELECT *
+        FROM answer
+        WHERE author = %s ;"""
+
+    cursor.execute(query, (author,))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_comment_by_author(cursor, author):
+    query = """
+        SELECT *
+        FROM comment
+        WHERE author = %s ;"""
+
+    cursor.execute(query, (author,))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_user_details(cursor, user_name):
+    query = """
+            SELECT *
+            FROM users
+            WHERE user_name = %s
+            ORDER BY user_name DESC;"""
+    cursor.execute(query, (user_name,))
+    return cursor.fetchone()
 
 
 

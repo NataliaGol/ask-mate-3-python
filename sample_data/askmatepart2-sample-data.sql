@@ -22,8 +22,8 @@ CREATE TABLE users
 (
     id              serial                      NOT NULL,
     full_name       text                        NOT NULL,
-    user_name       text                        NOT NULL,
-    password        text                       NOT NULL,
+    user_name       text                  unique NOT NULL,
+    _hashed_password      text                  NOT NULL,
     email           text                        NOT NULL
 
 );
@@ -42,6 +42,7 @@ CREATE TABLE question
     title           text                        NOT NULL,
     message         text                        NOT NULL,
     image           text
+
 );
 
 DROP TABLE IF EXISTS public.answer;
@@ -173,3 +174,8 @@ INSERT INTO question_tag VALUES (1, 3);
 INSERT INTO question_tag VALUES (2, 3);
 
 INSERT INTO users VALUES (0, 'ewa markowska', 'ewa m', 'lala2', 'ewa.markowska3@gmail.com');
+ALTER TABLE question ADD COLUMN author text;
+INSERT INTO question  VALUES (8, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
+', NULL, 'basia');
+ALTER TABLE answer ADD COLUMN author text;
+ALTER TABLE comment ADD COLUMN author text;

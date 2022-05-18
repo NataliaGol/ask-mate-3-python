@@ -12,6 +12,7 @@
     <h2>Answer to question:</h2>
     <section>
         <p>{{ answer.message }}</p>
+        <span><strong>Submitted by:</strong> {{ author }} </span>
         <button onclick="location.href='/answer/{{ answer.id }}/edit-page'" type="button" style="float: right;">Edit
         </button>
         <button onclick="location.href='/answer/{{ answer.id }}/new-comment'" type="button" style="float: right;">Add

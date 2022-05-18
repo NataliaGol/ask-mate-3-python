@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>Registration</title>
+    <title>Login</title>
 
 </head>
 <body>
@@ -15,24 +15,17 @@
     {% endfor %}
     <h1>ASK MATE</h1>
 
-    <h2> Registration</h2>
-    <form action='/register' method="post">
-        <label for="full_name">Your name:<br></label><br>
-        <input type="text" id="full_name" name="full_name" ><br>
-        <br>
+    <h2> Log in</h2>
+    <form action='/login' method="post">
+
         <label for="user_name">User name:<br></label><br>
         <input type="text" id="user_name" name="user_name"><br>
-        <br>
-        <label for="email">E-mail<br></label><br>
-        <input type="text" id="email" name="email"><br>
         <br>
         <label for="_hashed_password">Password:<br></label><br>
         <input type="password" id="_hashed_password" name="_hashed_password" ><br>
         <br>
-        <label for="repeated_password">Repeat password:<br></label><br>
-        <input type="password" id="repeated_password" name="repeated_password" ><br>
-        <br>
-        <button type="submit" style="float: right;">Register</button>
+
+        <button type="submit" style="float: right;">Log in</button>
     </form>
     <br>
     <br>

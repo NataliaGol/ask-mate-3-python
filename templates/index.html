@@ -5,13 +5,18 @@
     <title>Questions</title>
 </head>
 <body>
-<div class="content">
+
     <link rel="stylesheet" href="/static/question.css">
-    <a href="/list">
-        <h1>ASK MATE</h1>
+
+
     </a>
-    <div>
-        <h2> 5 latest questions:</h2>
+    <div class="content">
+     <a href="/list">
+    <h1>ASK MATE</h1>
+
+    <h2> 5 latest questions:</h2>
+    <section>
+
         {% for question in questions %}
             <div>
                 <strong>{{ question.vote_number }} </strong>votes
@@ -31,7 +36,9 @@
             </div>
             <br>
         {% endfor %}
+    </section>
     </div>
-</div>
+
+
 </body>
 </html>

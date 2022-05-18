@@ -1,13 +1,13 @@
 import re
-
-from flask import Flask, redirect, render_template, request, abort, url_for, flash
+import bcrypt
+from flask import Flask, redirect, render_template, request, abort, url_for, flash, session, escape
 
 import data_manager
 from bonus_questions import SAMPLE_QUESTIONS
-from werkzeug.security import generate_password_hash, check_password_hash
+
 
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = "dfsdfefewreew"
 
 @app.route('/')
 def index():
@@ -15,7 +15,7 @@ def index():
     return render_template('index.html', questions=q)
 
 
-@app.route('/list')
+@app.route('/list', methods= ['GET', 'POST'])
 def show_questions():
     q = data_manager.get_questions()
     return render_template('questions.html', questions=q)
@@ -23,38 +23,41 @@ def show_questions():
 
 @app.route("/question/<int:question_id>")
 def show_question(question_id):
+    author = data_manager.get_author(question_id)['author']
     question = data_manager.get_question(question_id)[0]
     answers = data_manager.get_answers_by_question_id(question_id)
     question['view_number'] += 1
     data_manager.update_question(question)
     t = data_manager.get_tag_by_question_id(question_id)
+
     for answer in answers:
         answer['comments'] = data_manager.get_comments_for_answer(answer['id'])
 
     comments = data_manager.get_comments_for_question(question_id)
-
-    return render_template("question.html", question=question, answers=answers, tags=t, comments=comments)
+    return render_template("question.html", question=question, answers=answers, tags=t, comments=comments, author=author)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def ask_question():
+    author = session['user_name']
     if request.method == 'GET':
         return render_template('add-question.html')
     if request.method == "POST":
-        data_manager.insert_question(request.form['title'], request.form['message'])
+        data_manager.insert_question(request.form['title'], request.form['message'], author)
         return redirect('/list')
     return render_template("add-question.html")
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['GET', 'POST'])
 def put_answer(question_id):
+    author = session['user_name']
     question = data_manager.get_question(question_id)
 
     if not question:
         abort(404)
 
     if request.method == 'POST':
-        data_manager.insert_answer(request.form['message'], question_id)
+        data_manager.insert_answer(request.form['message'], question_id, author)
         return redirect(f'/question/{question_id}')
     return render_template("new_answer.html", question=question[0])
 
@@ -121,12 +124,12 @@ def delete_tag(tag_id, question_id):
 @app.route('/question/<int:question_id>/new-comment', methods=['GET', 'POST'])
 def add_comment_to_question(question_id):
     question = data_manager.get_question(question_id)
-
+    author = session['user_name']
     if request.method == "GET":
         return render_template("add-comment-to-question.html")
 
     if request.method == "POST":
-        data_manager.insert_comment_question(request.form['message'], question_id)
+        data_manager.insert_comment_question(request.form['message'], question_id, author)
         return redirect(f'/question/{question_id}')
     return render_template('question.html', question=question[0], )
 
@@ -239,34 +242,94 @@ def main():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register_user():
-    global register_message
-    register_form = {}
-    if request.method == 'POST':
-        if 'full_name' in request.form and 'user_name' in request.form and 'password' in request.form and 'repeat_password' in request.form and 'email' in request.form:
-            if register_form['repeat_password'] == request.form['repeat_password']:
-                register_form['full_name'] = request.form['full_name']
-                register_form['user_name'] = request.form['user_name']
-                register_form['password'] = request.form['password']
-                register_form['email'] = request.form['email']
-                register_message = data_manager.check_user(register_form)
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    if request.method == "POST":
+        user_name = request.form['user_name']
+        password = request.form['_hashed_password']
+        full_name = request.form['full_name']
+        email = request.form['email']
+        repeated_password = request.form['repeated_password']
+        session['email'] = request.form['email']
+        session['user_name'] = request.form['user_name']
+        user = data_manager.get_user(user_name)
+        if user is None:
 
+            if password == repeated_password:
 
+                data_manager.register(full_name, user_name, email, hash_password(password))
+                flash(
+                    'You are now registered!')  # jak zrobic żeby ten flash wyświetlał się na stronie do której przekierowuje??
+                return redirect(url_for('show_questions'))
             else:
-                return render_template("register.html", pass_message='passwords are not the same')
-        return render_template("register.html", register_message=register_message)
+                flash('Passwords are not the same, try again!')
+                return render_template('register.html')
+        else:
+            flash('You are already registered! Log in!')  # jak zrobic żeby ten flash wyświetlał się na stronie do której przekierowuje??
+            return redirect('/login')
 
+def hash_password(password):
+    password = request.form['_hashed_password']
+    hashed_password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+    return hashed_password.decode('utf-8')
+
+
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
     else:
-        return render_template("register.html")
+        user_name = request.form['user_name']
+        password = request.form['_hashed_password']
+
+
+        user = data_manager.get_user(user_name)
+        if user is None:
+            return render_template('register.html')
+        else:
+            hashed = user['_hashed_password']
+            if bcrypt.checkpw(password.encode('utf8'), hashed.encode('utf-8')):
+
+                session['user_name'] = user_name
 
 
 
+                return render_template('questions.html')
+            else:
+                flash('Your password is wrong, try again!')
+                return render_template('login.html')
 
 
 
+@app.route("/users", methods=["GET", "POST"])
+def users_list():
+    return render_template('users.html')
 
 
+@app.route("/users/<user_name>", methods= ['GET', 'POST'])
+def show_user_details(user_name):
+
+    user_name = session['user_name']
+    author = session['user_name']
+    questions = data_manager.get_question_by_author(author)
+    number_of_questions = len(questions)
+    answers = data_manager.get_answer_by_author(author)
+    number_of_answers = len(answers)
+    comments = data_manager.get_comment_by_author(author)
+    number_of_comments = len(comments)
+    user = data_manager.get_user_details(user_name)
+    return render_template("user.html",
+                           user=user,
+                           questions=questions,
+                           answers=answers,
+                           number_of_questions=number_of_questions,
+                           number_of_answers=number_of_answers,
+                           number_of_comments=number_of_comments,
+                           comments=comments)
 
 
 if __name__ == '__main__':

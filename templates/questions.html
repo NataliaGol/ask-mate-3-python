@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/static/question.css">
+      {%  for message in get_flashed_messages() %}
+            {{ message }}
+    {% endfor %}
     <meta charset="UTF-8">
     <title>Questions</title>
 </head>
@@ -10,6 +13,7 @@
 <div class="content">
     <h1>ASK MATE</h1>
     <button onclick="location.href='/add-question'" type="button">Add question</button>
+    <button onclick="location.href='/users/{{ session['user_name'] }}'" type="button">User Details</button>
 
     <h2>Questions</h2>
 
