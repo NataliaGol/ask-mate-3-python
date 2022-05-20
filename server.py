@@ -299,8 +299,10 @@ def login():
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
-    session.pop('user_name')
-    return redirect(url_for('logout'))
+    if 'user_name' in session:
+        session.pop('user_name', None)
+        flash('You are logged out')
+    return render_template('logout.html')
 
 
 
@@ -339,6 +341,9 @@ def show_user_details(user_name):
                            number_of_comments=number_of_comments,
                            comments=comments)
 
+@app.route("/navigation", methods= ['GET', 'POST'])
+def navigation():
+    return render_template("navigation.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

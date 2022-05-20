@@ -204,6 +204,7 @@ header {
     height: 70px;
     /*padding-top: 20px;*/
     /*padding-bottom: 20px;*/
+
     position:fixed;
     margin-right:600px;
     text-align:right;
@@ -230,6 +231,12 @@ span {
     padding-top: 4px
 }
 
+.login_button{
+    background-color: transparent;
+    float: right;
+    margin-right: 0px;
+    padding-top: 4px
+}
 
 
 
@@ -332,3 +339,11 @@ span {
   background-color: black;
 }
 
+.navbar-brand.abs
+    {
+        position: absolute;
+        width: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+    }

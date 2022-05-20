@@ -9,6 +9,8 @@
     <title>Questions</title>
 </head>
 <body>
+
+{##navigationbar#}
 <nav>
 <br>
     <span style="font-size:30px ;cursor:pointer" onclick="openNav()">&#9776; </span><br>
@@ -25,14 +27,24 @@
         <button class="bn3" type="submit">Search</button>
       </form>
 </div>
+{##navigationbar#}
+
 
 <div class="content">
-
 <br><br><br><br><br><br><br><br>
+<div>
+        <form action='/logout'>
+            <label>
+                <input class="bn3" type="submit"  value='logout'>
+            </label></form>
 
 
-    <a href={{ url_for('logout') }}>logout</a>
+</div>
+{#<div class="login_button">#}
+{#<button onclick="window.location.href='/logout'"class="bn3" type="button">logout</button></div>#}
+<a>LOGGED AS: {{ session['user_name'] }}</a>
 
+<br><br><br><br><br>
 
 
 {#<div>User:{{ session['user_name'] }}</div>#}
@@ -80,12 +92,10 @@
         </section>
 
     {% endfor %}
-
-
-
-
 </div>
 
+
+{##navigationbar#}
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a href='/login'>Login</a>
@@ -93,19 +103,15 @@
   <a href='/users'>Users</a>
   <a href='/users/{{ session['user_name'] }}'>Profile</a>
 </div>
-
-
-
-
 <script>
 function openNav() {
   document.getElementById("mySidenav").style.width = "250px";
 }
-
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
 </script>
+{##navigationbar#}
 </body>
 </html>
 
