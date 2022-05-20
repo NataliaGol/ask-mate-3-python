@@ -27,9 +27,17 @@
         <button class="bn3" type="submit">Search</button>
       </form>
     <a class="login_info">LOGGED AS: {{ session['user_name'] }}</a>
-      <form action='/logout'>
+{#      <form action='/logout'>#}
+{#            <label>#}
+{#                <input class="bn3" type="button"  value='logout'>#}
+{#            </label></form>#}
+
+{#    <button onclick="location.href='/logout'" class="bn3" type="button"#}
+{#                        style="float: right;">Logout#}
+{#                </button>#}
+ <form action='/logout'>
             <label>
-                <input class="bn3" type="button"  value='logout'>
+                <input class="bn3" type="submit"  value='logout'>
             </label></form>
 </div>
 {##navigationbar#}
@@ -37,7 +45,11 @@
 
 <div class="content">
 <br><br><br><br><br><br><br>
+
 <br><br>
+
+
+{#<div>User:{{ session['user_name'] }}</div>#}
 <header>Questions</header>
 <br><br><br><br>
 <section class="dark">
@@ -58,7 +70,7 @@
 </section>
 
     {% for question in questions %}
-        <section>
+        <section class="popout">
         <table>
             <tr>
             <td class="small_cells">
@@ -88,6 +100,7 @@
 {##navigationbar#}
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href='/list'>Home</a>
   <a href='/login'>Login</a>
   <a href='/register'>Register</a>
   <a href='/users'>Users</a>

@@ -278,23 +278,26 @@ def hash_password(password):
 
 
 
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
-    user_name = request.form['user_name']
-    user = data_manager.get_user(user_name)
-    if user is None:
-        return redirect('/register')
+    else:
+        user_name = request.form['user_name']
+        password = request.form['_hashed_password']
+        user = data_manager.get_user(user_name)
+        if user is None:
+            return render_template('register.html')
+        else:
+            hashed = user['_hashed_password']
+            if bcrypt.checkpw(password.encode('utf8'), hashed.encode('utf-8')):
+                session['user_name'] = user_name
+                return redirect('/list')
+            else:
+                flash('Your password is wrong, try again!')
+                return render_template('login.html')
 
-    password = request.form['_hashed_password']
-    hashed = user['_hashed_password']
-    if bcrypt.checkpw(password.encode('utf8'), hashed.encode('utf-8')):
-        session['user_name'] = user_name
-        return redirect('/list')
 
-    flash('Your password is wrong, try again!')
 
 
 @app.route('/logout', methods=["GET", "POST"])
