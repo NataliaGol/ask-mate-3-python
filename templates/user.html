@@ -6,46 +6,56 @@
 </head>
 <body>
 <div class="content">
-    <link rel="stylesheet" href="/static/question.css">
+    <link rel="stylesheet" href="/static/images/question.css">
 
-    <h1>ASK MATE</h1>
-    <h2>User details for '{{ session['user_name'] }}'</h2>
+    <h1>User's profile for '{{ session['user_name'] }}'</h1>
+
 
     <section>
+     <table>
+         <tr>
+        <td><strong>ID: </strong>{{ user.id }}</td>
+        <td><strong>NAME: </strong>{{ user.user_name }}</td>
+        <td><strong>EMAIL: </strong>{{ user.email }}</td>
+         </tr>
+     </table>
+    </section>
+    <h2>User's questions: {{ number_of_questions }}</h2>
 
-        <p><strong>ID: </strong>{{ user.id }}</p>
-        <p><strong>NAME: </strong>{{ user.user_name }}</p>
-        <p><strong>EMAIL: </strong>{{ user.email }}</p>
-    </section>
-    <h2>USER'S QUESTIONS:</h2>
-    <section>
-    <p><strong>Number of asked questions: </strong> {{ number_of_questions }} </p>
-    </section>
      {% for question in questions %}
      <section>
-     <strong>Question Title: </strong><a href="/question/{{ question.id }}" title="{{ question.title }}">{{ question.title }} </a>
-
-    <p><strong>Question Message: </strong>{{ question.message }}</p>
+     <table>
+         <tr>
+             <td><strong>Question Title: </strong><a href="/question/{{ question.id }}" title="{{ question.title }}">{{ question.title }} </a></td></tr>
+<tr>
+    <td><strong>Question Message: </strong>{{ question.message }}</td>
+         </tr>
+     </table>
     </section>
     {% endfor %}
 
-    <h2>USER'S ANSWERS:</h2>
- <section>
-    <p><strong>Number of added answers: </strong> {{ number_of_answers }} </p>
-    </section>
+    <h2>User's answers: {{ number_of_answers }} </h2>
+
    {% for answer  in answers %}
     <section>
-    <p><strong>Answer Message: </strong><a href="/question/{{ answer.id }}" title="{{ answer.message }}">{{ answer.message }} </a>
+     <table>
+         <tr>
+    <td><strong>Answer Message: </strong><a href="/answer/{{ answer.id }}" title="{{ answer.message }}">{{ answer.message }} </a>
+
+    </td>
+         </tr>
+     </table>
     </section>
     {% endfor %}
-    <h2>USER'S COMMENTS:</h2>
- <section>
-    <p><strong>Number of added comments: </strong> {{ number_of_comments }} </p>
-    </section>
+    <h2>User's comments: {{ number_of_comments }}</h2>
 
   {% for comment  in comments %}
     <section>
-    <p><strong>Comment Message: </strong><a href="/question/{{ comment.question_id }}" title="{{ comment.message }}">{{ comment.message }} </a>
+    <table>
+         <tr>
+             <td><strong>Comment Message: </strong><a href="/question/{{ comment.question_id }}" title="{{ comment.message }}">{{ comment.message }} </a></td>
+         </tr>
+    </table>
     </section>
     {% endfor %}
 

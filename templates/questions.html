@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/static/question.css">
+    <link rel="stylesheet" href="/static/images/question.css">
       {%  for message in get_flashed_messages() %}
             {{ message }}
     {% endfor %}
@@ -9,40 +9,39 @@
     <title>Questions</title>
 </head>
 <body>
+<nav>
+<br>
+    <span style="font-size:30px ;cursor:pointer" onclick="openNav()">&#9776; </span><br>
+    <a  class="hover-underline-animation" href='/list'>HOME</a>
+    <a  class="hover-underline-animation" href='/register'>REGISTER</a>
+    <a  class="hover-underline-animation"href='/login'>LOGIN</a>
+    <a  class="hover-underline-animation"href='/users'>USER_LIST</a>
+    <a  class="hover-underline-animation"href='/users/{{ session['user_name']  }}'>USER_PROFILE</a>
+</nav>
+<div class="searching">
+      <form class="searchbar" action="{{ url_for('search') }}" method='post'>
+        <input  type="text" id='search_phrase' placeholder="Search" name="search_phrase"
+               aria-label="Search" required>
+        <button class="bn3" type="submit">Search</button>
+      </form>
+</div>
 
 <div class="content">
-    <h1>ASK MATE</h1>
-    <button onclick="location.href='/add-question'" type="button">Add question</button>
-    <button onclick="location.href='/users/{{ session['user_name'] }}'" type="button">User Details</button>
 
-    <h2>Questions</h2>
+<br><br><br><br><br><br><br><br>
 
-    {% for question in questions %}
 
-        <section>
-            <div>
-                <strong>{{ question.vote_number }} </strong>votes
-            </div>
-            <div>
-                <strong>{{ question.view_number }} </strong>views
-            </div>
-            <div>
-                <a href="/question/{{ question.id }}"
-                   title="{{ question.title }}">{{ question.title }} </a>
-            </div>
-            <div>
-                {{ question.message|truncate(70) }}
-            </div>
-            <div>
-                asked {{ question.submission_time }}
-            </div>
+    <a href={{ url_for('logout') }}>logout</a>
 
-        </section>
 
-    {% endfor %}
 
-    <form action="{{ url_for('filters') }}" method="POST">
-        <label>
+{#<div>User:{{ session['user_name'] }}</div>#}
+<header>Questions</header>
+<br><br><br><br>
+<section class="dark">
+
+<form action="{{ url_for('filters') }}" method="POST">
+    <label>
             <select name="sort">
                 <option value="latest">Latest</option>
                 <option value="oldest">Oldest</option>
@@ -50,16 +49,63 @@
                 <option value="votes">By votes</option>
                 <option value="views">By views</option>
             </select>
-        </label>
-        <button type="submit">Apply filter</button>
-    </form>
-    <form class="form-inline my-2 my-lg-0" action="{{ url_for('search') }}" method='post'>
-        <input class="form-control mr-sm-2" type="text" id='search_phrase' placeholder="Search" name="search_phrase"
-               aria-label="Search" required>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </label>
+<button type="submit" class="bn3">Apply filter</button>
+    <button onclick="location.href='/add-question'" class="bn3" type="button">Add question</button>
+</form>
+</section>
 
-    </form>
+    {% for question in questions %}
+        <section>
+        <table>
+            <tr>
+            <td class="small_cells">
+                <strong>{{ question.vote_number }} </strong>votes
+        <br>
+                <strong>{{ question.view_number }} </strong>views
+            </td>
+            <td class="big_cells">
+                <a href="/question/{{ question.id }}"
+                   title="{{ question.title }}">{{ question.title }} </a><br>
+                   {{ question.message|truncate(70) }}
+            </td>
+
+
+
+            <td >
+                <strong>submitted:</strong><br> {{ question.submission_time }}
+            </td>
+            </tr>
+        </table>
+        </section>
+
+    {% endfor %}
+
+
+
 
 </div>
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href='/login'>Login</a>
+  <a href='/register'>Register</a>
+  <a href='/users'>Users</a>
+  <a href='/users/{{ session['user_name'] }}'>Profile</a>
+</div>
+
+
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
 </body>
 </html>
+

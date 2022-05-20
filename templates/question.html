@@ -5,56 +5,102 @@
     <title>Question with answer</title>
 </head>
 <body>
+<nav>
+
+<br>
+    <span style="font-size:30px ;cursor:pointer" onclick="openNav()">&#9776; </span><br>
+    <a  class="hover-underline-animation" href='/list'>HOME</a>
+    <a  class="hover-underline-animation" href='/register'>REGISTER</a>
+    <a  class="hover-underline-animation"href='/login'>LOGIN</a>
+    <a  class="hover-underline-animation"href='/users'>USER_LIST</a>
+    <a  class="hover-underline-animation"href='/users/{{ session['user_name']  }}'>USER_PROFILE</a>
+
+ </nav>
+<div class="searching">
+      <form class="searchbar" action="{{ url_for('search') }}" method='post'>
+        <input  type="text" id='search_phrase' placeholder="Search" name="search_phrase"
+               aria-label="Search" required>
+        <button class="bn3" type="submit">Search</button>
+</div>
 <div class="content">
-    <link rel="stylesheet" href="/static/question.css">
+    <link rel="stylesheet" href="/static/images/question.css">
+<br><br><br><br><br><br><br>
+<h1>Question details:</h1>
+<section>
+<table>
+    <tr>
+        <td ><h3>{{ question.title }}</h3>
+            <p>{{ question.message }}</p></td></tr>
+    <tr>
+         <td colspan="1">
+         <div><strong>Asked</strong> {{ question.submission_time }}</div>
+         <div> <strong>Viewed</strong> {{ question.view_number }} times</div>
+         <div><strong>Submitted by:</strong> {{ author }}</div>
+         </td>
+    </tr>
 
-    <h1>ASK MATE</h1>
-    <h2>Question details:</h2>
-    <section>
-        <h3>{{ question.title }}</h3>
-        <p>{{ question.message }}</p>
-        <br>
-        <div>
-            <span><strong>Asked</strong> {{ question.submission_time }}</span><br>
-            <span><strong>Viewed</strong> {{ question.view_number }} times</span><br>
-            <span><strong>Submitted by:</strong> {{ author }} </span>
-
-        </div>
-        <br>
-        <br>
+    <tr>
+        <td>
         <h3>VOTING</h3>
-        <br>
         <div class="answers-container">
             <div class="ans-votes">
                 <a href="/question/{{ question.id }}/upvote">
                     <img src="/static/images/arrow-up.svg" alt="arrow-up">
                 </a>
-                <p class="vote-num">{{ question.vote_number }}</p>
+                <p class="vote-num">  {{ question.vote_number }}</p>
                 <a href="/question/{{ question.id }}/down-vote">
                     <img src="/static/images/arrow-down.svg" alt="arrow-down">
                 </a>
             </div>
-            <div class="ans-details">
-
-                <button onclick="location.href='/question/{{ question.id }}/delete'" type="button"
-                        style="float: right;">Delete question
-                </button>
-                <button onclick="location.href='/question/{{ question.id }}/edit-page'" type="button"
+        </div>
+        </td>
+    </tr>
+</table>
+      <div class="ans-details">
+                <button onclick="location.href='/question/{{ question.id }}/delete'" class="bn3"  type="button"
+                        style="float: right;">Delete
+                <button onclick="location.href='/question/{{ question.id }}/edit-page'" class="bn3" type="button"
                         style="float: right;">Edit
                 </button>
                 <br/>
-                <br/>
+                <br/>  </button>
+
             </div>
-        </div>
+
     </section>
+
+<div class="content">
+
+
+        </div>
+
+
+
     <h2>Answers to question:</h2>
-    <button onclick="location.href='/question/{{ question.id }}/new-answer'" type="button">Add answer to question
-    </button>
+
+
+
 
     {% for answer in answers %}
 
         <section>
-            <div class="answers-container">
+
+
+<table>
+    <tr>
+        <td>
+                <div class="ans-message">
+                {{ answer.message }}<br>
+
+                 </div><br>
+        </td>
+        <tr>
+
+        </tr>
+<tr><td>
+
+            <h3>VOTING</h3>
+  <div class="answers-container">
                 <div class="ans-votes">
                     <a href="/answer/{{ answer.id }}/upvote">
                         <img src="/static/images/arrow-up.svg" alt="arrow-up">
@@ -64,34 +110,33 @@
                         <img src="/static/images/arrow-down.svg" alt="arrow-down">
                     </a>
                 </div>
-                <ul>
-                    <li>
-                        <div class="ans-message"><a href="/answer/{{ answer.id }}"
-                                                    title="{{ answer.message }}">{{ answer.message }}</a></div>
-                        <button onclick="location.href='/answer/{{ answer.id }}/delete'" type="button"
-                                style="float: right;">Delete answer
-                        </button>
-                    </li>
-                </ul>
-            </div>
+
+</td>
+</tr>
+</table>
+
+        <button onclick="location.href='/answer/{{ answer.id }}/delete'" class="bn3"  type="button" style="float: right;">Delete  </button>
+        <button onclick="location.href='/answer/{{ answer.id }}/edit-page'"  class="bn3" type="button"style="float: right;">Edit </button>
+        <br><br>
         </section>
     {% endfor %}
+<button onclick="location.href='/question/{{ question.id }}/new-answer'" type="button"class="bn3"  >Add answer to question </button>
 
     <h2>Comments to question:</h2>
     <section>
         {% for comment in comments %}
             <ul>
                 {{ comment.message }}
-                <button onclick="location.href='/comment/{{ comment.id }}/delete'" type="button" style="float: right;">
-                    Delete comment
+                <button onclick="location.href='/comment/{{ comment.id }}/delete'" class="bn3"  type="button" style="float: right;">
+                    Delete
                 </button>
-                <button onclick="location.href='/comment/{{ comment.id }}/edit'" type="button" style="float: right;">
-                    Edit comment
+                <button onclick="location.href='/comment/{{ comment.id }}/edit'"  class="bn3" type="button" style="float: right;">
+                    Edit
                 </button>
             </ul>
         {% endfor %}
     </section>
-    <button onclick="location.href='/question/{{ question.id }}/new-comment'" type="button">Add comment to question
+    <button onclick="location.href='/question/{{ question.id }}/new-comment'" class="bn3" type="button">Add comment to question
     </button>
 
     <h2>Tags list:</h2>
@@ -99,14 +144,36 @@
         {% for tag in tags %}
             <ul>
                 {{ tag.id }} {{ tag.name }}
-                <button onclick="location.href='/question/{{ question.id }}/tag/{{ tag.id }}/delete' " type="button"
-                        style="float: right;">Delete tag
+                <button onclick="location.href='/question/{{ question.id }}/tag/{{ tag.id }}/delete' " class="bn3"  type="button"
+                        style="float: right;">Delete
                 </button>
             </ul>
 
         {% endfor %}
     </section>
-    <button onclick="location.href='/question/{{ question.id }}/create_new_tag'" type="button">Add new tag</button>
+    <button onclick="location.href='/question/{{ question.id }}/create_new_tag'" class="bn3"  type="button">Add new tag</button>
 </div>
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">Login</a>
+  <a href="#">Register</a>
+  <a href="#">Users</a>
+  <a href="#">Profile</a>
+</div>
+
+
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+
 </body>
+
 </html>

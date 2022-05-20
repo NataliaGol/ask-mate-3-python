@@ -1,0 +1,334 @@
+html {
+
+    background: rgba(120, 100, 30, 0.5) url('/static/images/6842012.jpg') fixed;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+nav {
+    width:100%;
+    background-color: black;
+    height: 70px;
+    text-align: center;
+    position:fixed;
+    word-spacing: 30px;
+    padding-bottom:20px
+}
+
+body {
+    background-position: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom:100px;
+
+}
+h1 {
+
+    color: black;
+    background-color: transparent;
+    width: 800px;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: xxx-large;
+    font-family: Helvetica Bold;
+
+
+}
+
+h2 {
+    background-color: black;
+    width: 800px;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    border-radius: 10px;
+    color: white
+}
+label {
+    color:black;
+}
+/*h2 {*/
+/*  text-decoration: underline;*/
+
+/*}*/
+section {
+    background-color: white;
+    text-align: center ;
+    width: 800px;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+
+
+}
+
+table {
+    background-color: paleturquoise;
+}
+
+button {
+    background-color: dimgrey;
+    border: none;
+    color: white;
+    padding: 11px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 3px 2px;
+    border-radius: 18px
+}
+
+form {
+
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 3px 2px;
+    border-radius: 18px
+
+}
+
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    width:880px;
+    text-align: center;
+}
+
+.search_phrase {
+    color: darkred;
+    font-weight: bold;
+    background-color: yellow;
+}
+
+
+
+
+
+
+.wrapper {
+  height: 100vh;
+  /*This part is important for centering*/
+  display: grid;
+  place-items: center;
+}
+
+.typing-demo {
+  width: 22ch;
+  animation: typing 2s steps(22), blink .5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+  font-family: Helvetica Bold;
+  font-size: 7em;
+    color:black;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+
+
+.dark {
+    text-align: right;
+    background-color: black;
+}
+
+/*tabelka */
+table {
+  border-collapse: collapse;
+    background-color: white;
+  border-color: transparent;
+     table-layout: fixed;
+    width: 800px;
+     column-rule-style: solid;
+  column-rule-width: 1px;
+}
+
+td, th {
+
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.small_cells {
+    width: 120px;
+}
+
+.big_cells {
+    width: 500px;
+}
+
+
+
+.menu {
+    color: white;
+    text-decoration: white;
+
+
+}
+
+header {
+    color: black;
+    background-color: transparent;
+    width: 100%;
+    font-family: Arial Bold ;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 130px;
+
+}
+/*wyszukiwarka*/
+.searching {
+
+    background-color: transparent;
+    height: 70px;
+    /*padding-top: 20px;*/
+    /*padding-bottom: 20px;*/
+    position:fixed;
+    margin-right:600px;
+    text-align:right;
+    padding-top:10px
+
+}
+
+
+.burger {
+    background-color: transparent;
+    height: 70px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position:fixed;
+    margin-left:500px
+}
+
+/*burger menu*/
+
+span {
+    color:white;
+    float: right;
+    margin-right: 50px;
+    padding-top: 4px
+}
+
+
+
+
+/*#boczna nawigacja*/
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  text-align:left;
+  font-size: 40px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: white;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 60px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+
+
+
+
+
+
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+  color: white;
+   text-decoration: none;
+}
+
+.hover-underline-animation:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+
+
+
+
+.bn3 {
+  display: inline-block;
+  padding: 0.5em 1.7em;
+  margin: 0 0.1em 0.1em 0;
+  border: 0.16em solid rgb(255, 255, 255);
+  border-radius: 2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #ffffff;
+  text-shadow: 0 0.04em 0.04em rgba(255, 255, 255, 0.253);
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.bn3:hover {
+  color: white;
+  background-color: black;
+}
+

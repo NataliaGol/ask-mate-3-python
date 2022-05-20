@@ -25,7 +25,6 @@ CREATE TABLE users
     user_name       text                  unique NOT NULL,
     _hashed_password      text                  NOT NULL,
     email           text                        NOT NULL
-
 );
 
 
@@ -179,3 +178,4 @@ INSERT INTO question  VALUES (8, '2017-05-01 10:41:00', 1364, 57, 'Drawing canva
 ', NULL, 'basia');
 ALTER TABLE answer ADD COLUMN author text;
 ALTER TABLE comment ADD COLUMN author text;
+ALTER TABLE users ADD COLUMN registration_date  timestamp without time zone;

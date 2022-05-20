@@ -6,10 +6,28 @@
 </head>
 <body>
 <div class="content">
-<link rel="stylesheet" href="/static/question.css">
+<link rel="stylesheet" href="/static/images/question.css">
 <h1>List of users:</h1>
 
+{% for user  in users %}
+<section>
+<table>
+    <tr>
+    <td  class="small_cells"><div><strong>ID: </strong>{{ user.id}}</div></td>
+    <td  class="small_cells"><strong>Name: </strong>{{ user.user_name }}</td>
+    <td><div><strong>Email: </strong>{{ user.email }}</div></td>
 
+
+
+        <td>
+        <strong>Questions submitted: </strong>0<br>
+        <strong>Answers submitted: </strong>0<br>
+        <strong>Comments submitted: </strong>0
+        </td>
+     </tr>
+</table>
+</section>
+    {% endfor %}
 
 </div>
 </body>

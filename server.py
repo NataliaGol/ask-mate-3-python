@@ -1,6 +1,6 @@
 import re
 import bcrypt
-from flask import Flask, redirect, render_template, request, abort, url_for, flash, session, escape
+from flask import Flask, redirect, render_template, request, abort, url_for, flash, session
 
 import data_manager
 from bonus_questions import SAMPLE_QUESTIONS
@@ -18,7 +18,8 @@ def index():
 @app.route('/list', methods= ['GET', 'POST'])
 def show_questions():
     q = data_manager.get_questions()
-    return render_template('questions.html', questions=q)
+    show_users_link = logged_in()
+    return render_template('questions.html', questions=q, show_users_link=show_users_link)
 
 
 @app.route("/question/<int:question_id>")
@@ -282,33 +283,40 @@ def hash_password(password):
 def login():
     if request.method == 'GET':
         return render_template('login.html')
-    else:
-        user_name = request.form['user_name']
-        password = request.form['_hashed_password']
+    user_name = request.form['user_name']
+    user = data_manager.get_user(user_name)
+    if user is None:
+        return redirect('/register')
+
+    password = request.form['_hashed_password']
+    hashed = user['_hashed_password']
+    if bcrypt.checkpw(password.encode('utf8'), hashed.encode('utf-8')):
+        session['user_name'] = user_name
+        return redirect('/list')
+
+    flash('Your password is wrong, try again!')
 
 
-        user = data_manager.get_user(user_name)
-        if user is None:
-            return render_template('register.html')
-        else:
-            hashed = user['_hashed_password']
-            if bcrypt.checkpw(password.encode('utf8'), hashed.encode('utf-8')):
-
-                session['user_name'] = user_name
-
-
-
-                return render_template('questions.html')
-            else:
-                flash('Your password is wrong, try again!')
-                return render_template('login.html')
+@app.route('/logout', methods=["GET", "POST"])
+def logout():
+    session.pop('user_name')
+    return redirect(url_for('logout'))
 
 
 
 @app.route("/users", methods=["GET", "POST"])
 def users_list():
-    return render_template('users.html')
+    if not logged_in():
+        abort(401)
+    users = data_manager.get_all_user_details('id', 'user_name', 'email')
+    # for user in users:
+    #     author = data_manager.get_author('user_name')
+    #     questions = data_manager.get_question_by_author('author')
+    #     number_of_questions = len(questions)
+    return render_template('users.html', users=users)
 
+def logged_in():
+    return 'user_name' in session
 
 @app.route("/users/<user_name>", methods= ['GET', 'POST'])
 def show_user_details(user_name):

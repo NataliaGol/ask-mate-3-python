@@ -1,7 +1,6 @@
-from psycopg2.extras import RealDictCursor
-import json
+
 import database_common
-import bcrypt
+
 
 
 @database_common.connection_handler
@@ -341,6 +340,26 @@ def get_user(cursor, user_name):
     cursor.execute(query, (user_name,))
     return cursor.fetchone()
 
+@database_common.connection_handler
+def get_user_name(cursor, user_name):
+    query = """
+            SELECT user_name
+            FROM users
+            
+            ;"""
+    cursor.execute(query, (user_name,))
+    return cursor.fetchone()
+
+
+
+
+@database_common.connection_handler
+def insert_author(cursor, author):
+    query = """
+        INSERT INTO question (author) values(%s);"""
+    cursor.execute(query, (author,))
+
+
 
 @database_common.connection_handler
 def get_author(cursor, question_id):
@@ -352,6 +371,30 @@ def get_author(cursor, question_id):
     cursor.execute(query, (question_id,))
     return cursor.fetchall()[0]
 
+
+
+
+
+
+@database_common.connection_handler
+def get_user_by_id(cursor, user_id):
+    query = """
+            SELECT *
+            FROM users
+            WHERE id = %s
+            ORDER BY id DESC;"""
+    cursor.execute(query, (user_id,))
+    return cursor.fetchone()
+
+@database_common.connection_handler
+def get_id_by_user_name(cursor, user_name):
+    query = """
+            SELECT id
+            FROM users
+            WHERE user_name = %s
+            ORDER BY user_name DESC;"""
+    cursor.execute(query, (user_name,))
+    return cursor.fetchone()
 
 @database_common.connection_handler
 def get_question_by_author(cursor, author):
@@ -394,4 +437,16 @@ def get_user_details(cursor, user_name):
     return cursor.fetchone()
 
 
+@database_common.connection_handler
+def get_all_user_details(cursor, id, user_name, email):
+    query = """
+            SELECT id , user_name, email  
+            FROM users            
+            ORDER BY id ASC;"""
+    cursor.execute(query, (id, user_name, email))
+    return cursor.fetchall()
 
+@database_common.connection_handler
+def get_users(cursor):
+    cursor.execute('SELECT user_name, registration_date FROM users;')
+    return cursor.fetchall()
