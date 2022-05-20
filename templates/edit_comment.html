@@ -13,9 +13,9 @@
     <h2>Edit comment</h2>
     <form action="/comment/{{ comment.id }}/edit" method="post">
         <label for="message">Answer:<br></label><br>
-        <textarea id="message" name="message" rows="8" cols="70">{{ comment.message }}</textarea>
-        <br>
-        <button type="submit">Submit your comment</button>
+        <textarea id="message" name="message" rows="8" cols="110">{{ comment.message }}</textarea>
+        <br><br><br>
+        <button type="submit" class="bn3" >Submit your comment</button>
     </form>
     <br>
     <br>

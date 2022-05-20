@@ -13,12 +13,12 @@
     <h2>Edit question</h2>
     <form action="/question/{{ question.id }}/edit-page" method="post">
         <label for="title">Title:<br></label><br>
-        <textarea id="title" name="title" rows="2" cols="70">{{ question.title }}</textarea><br>
+        <textarea id="title" name="title" rows="2" cols="110">{{ question.title }}</textarea><br>
         <br>
         <label for="message">Question:<br></label><br>
-        <textarea id="message" name="message" rows="8" cols="70">{{ question.message }}</textarea>
-        <br>
-        <button type="submit" style="float: right;">Submit your question</button>
+        <textarea id="message" name="message" rows="8" cols="110">{{ question.message }}</textarea>
+        <br> <br> <br>
+        <button type="submit" class="bn3"  >Submit your question</button>
     </form>
     <br>
     <br>

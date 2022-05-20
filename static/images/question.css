@@ -71,18 +71,18 @@ table {
     background-color: paleturquoise;
 }
 
-button {
-    background-color: dimgrey;
-    border: none;
-    color: white;
-    padding: 11px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 3px 2px;
-    border-radius: 18px
-}
+/*button {*/
+/*    background-color: dimgrey;*/
+/*    border: none;*/
+/*    color: white;*/
+/*    padding: 11px;*/
+/*    text-align: center;*/
+/*    text-decoration: none;*/
+/*    display: inline-block;*/
+/*    font-size: 13px;*/
+/*    margin: 3px 2px;*/
+/*    border-radius: 18px*/
+/*}*/
 
 form {
 
@@ -189,11 +189,13 @@ td, th {
 
 header {
     color: black;
-    background-color: transparent;
-    width: 100%;
+    /*background-color: transparent;*/
+    width: 880px;
     font-family: Arial Bold ;
-    text-align: center;
-    border-radius: 10px;
+    /*text-align: center;*/
+    /*margin-left:auto;*/
+    /*margin-right:auto;*/
+    /*border-radius: 10px;*/
     font-size: 130px;
 
 }
@@ -294,6 +296,7 @@ span {
   position: relative;
   color: white;
    text-decoration: none;
+    font-size:12px
 }
 
 .hover-underline-animation:after {
@@ -328,15 +331,17 @@ span {
   text-decoration: none;
   font-family: "Roboto", sans-serif;
   font-weight: 300;
-  color: #ffffff;
+  color: white;
+  background-color: black;
   text-shadow: 0 0.04em 0.04em rgba(255, 255, 255, 0.253);
   text-align: center;
   transition: all 0.2s;
+
 }
 
 .bn3:hover {
   color: white;
-  background-color: black;
+  background-color: darkred;
 }
 
 .navbar-brand.abs
@@ -347,3 +352,9 @@ span {
         transform: translateX(-50%);
         text-align: center;
     }
+
+.login_info {
+    color:white;
+    font-size:12px;
+    font-family:"Arial ";
+}

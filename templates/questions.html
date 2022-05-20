@@ -26,28 +26,18 @@
                aria-label="Search" required>
         <button class="bn3" type="submit">Search</button>
       </form>
+    <a class="login_info">LOGGED AS: {{ session['user_name'] }}</a>
+      <form action='/logout'>
+            <label>
+                <input class="bn3" type="button"  value='logout'>
+            </label></form>
 </div>
 {##navigationbar#}
 
 
 <div class="content">
-<br><br><br><br><br><br><br><br>
-<div>
-        <form action='/logout'>
-            <label>
-                <input class="bn3" type="submit"  value='logout'>
-            </label></form>
-
-
-</div>
-{#<div class="login_button">#}
-{#<button onclick="window.location.href='/logout'"class="bn3" type="button">logout</button></div>#}
-<a>LOGGED AS: {{ session['user_name'] }}</a>
-
-<br><br><br><br><br>
-
-
-{#<div>User:{{ session['user_name'] }}</div>#}
+<br><br><br><br><br><br><br>
+<br><br>
 <header>Questions</header>
 <br><br><br><br>
 <section class="dark">
