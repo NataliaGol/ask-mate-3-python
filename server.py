@@ -11,11 +11,11 @@ app.config['SECRET_KEY'] = "dfsdfefewreew"
 
 @app.route('/')
 def index():
-    q = data_manager.get_questions()[-5:]
+    q = data_manager.get_questions()[-5:]  # What is q? Why -5?
     return render_template('index.html', questions=q)
 
 
-@app.route('/list', methods= ['GET', 'POST'])
+@app.route('/list', methods= ['GET', 'POST'])  # POST and GET are doing the same, I guess POST is not needed here
 def show_questions():
     q = data_manager.get_questions()
     show_users_link = logged_in()
@@ -24,17 +24,17 @@ def show_questions():
 
 @app.route("/question/<int:question_id>")
 def show_question(question_id):
-    author = data_manager.get_author(question_id)['author']
+    author = data_manager.get_author(question_id)['author']  # We don't need this. We can just select author in get_question
     question = data_manager.get_question(question_id)[0]
     answers = data_manager.get_answers_by_question_id(question_id)
     question['view_number'] += 1
     data_manager.update_question(question)
     t = data_manager.get_tag_by_question_id(question_id)
 
-    for answer in answers:
+    for answer in answers:  # It would be more efficient (and readable) to join comments in sql
         answer['comments'] = data_manager.get_comments_for_answer(answer['id'])
 
-    comments = data_manager.get_comments_for_question(question_id)
+    comments = data_manager.get_comments_for_question(question_id)  # could be question['comments'] to be consistent
     return render_template("question.html", question=question, answers=answers, tags=t, comments=comments, author=author)
 
 
@@ -43,14 +43,14 @@ def ask_question():
     author = session['user_name']
     if request.method == 'GET':
         return render_template('add-question.html')
-    if request.method == "POST":
+    if request.method == "POST":  # this line could be omitted
         data_manager.insert_question(request.form['title'], request.form['message'], author)
         return redirect('/list')
-    return render_template("add-question.html")
+    return render_template("add-question.html")  # unreachable code
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['GET', 'POST'])
-def put_answer(question_id):
+def put_answer(question_id):  # put suggests put http method, add_answer would be better
     author = session['user_name']
     question = data_manager.get_question(question_id)
 
@@ -59,7 +59,7 @@ def put_answer(question_id):
 
     if request.method == 'POST':
         data_manager.insert_answer(request.form['message'], question_id, author)
-        return redirect(f'/question/{question_id}')
+        return redirect(f'/question/{question_id}')  # url_for would be better
     return render_template("new_answer.html", question=question[0])
 
 
@@ -110,15 +110,16 @@ def filters():
 def create_new_tag(question_id):
     if request.method == 'GET':
         return render_template("create_new_tag.html", question_id=question_id)
-    if request.method == 'POST':
-        tag_id = data_manager.insert_tag(request.form['new_tag_name'])
+    if request.method == 'POST':  # redundant line
+        tag_id = data_manager.insert_tag(request.form['new_tag_name'])  # we should first check if tag already exists
         data_manager.insert_question_tag(tag_id, question_id)
         return redirect(f'/question/{question_id}')
 
 
 @app.route("/question/<question_id>/tag/<tag_id>/delete")
 def delete_tag(tag_id, question_id):
-    data_manager.delete_tag(tag_id)
+    data_manager.delete_tag(tag_id)  # From route it looks like we want to delete question_tag, but we delete whole tag.
+    # It would delete this tag from all questions.
     return redirect(f'/question/{question_id}')
 
 
@@ -129,10 +130,10 @@ def add_comment_to_question(question_id):
     if request.method == "GET":
         return render_template("add-comment-to-question.html")
 
-    if request.method == "POST":
+    if request.method == "POST":  # redundant line
         data_manager.insert_comment_question(request.form['message'], question_id, author)
         return redirect(f'/question/{question_id}')
-    return render_template('question.html', question=question[0], )
+    return render_template('question.html', question=question[0], )  # unreachable code
 
 
 @app.route('/answer/<int:answer_id>')
@@ -149,10 +150,10 @@ def add_comment_to_answer(answer_id):
     if request.method == "GET":
         return render_template("add-comment-to-question.html")
 
-    if request.method == "POST":
-        data_manager.insert_comment_answer(request.form['message'], answer_id, question_id)
+    if request.method == "POST":  # redundant line
+        data_manager.insert_comment_answer(request.form['message'], answer_id, question_id)  # no author passed
         return redirect(f'/question/{question_id}')
-    return render_template("new_comment.html", answers=answer[0])
+    return render_template("new_comment.html", answers=answer[0])  # unreachable code
 
 
 @app.route('/question/<question_id>/delete')
@@ -169,7 +170,7 @@ def delete_answer(answer_id):
 
 
 @app.route('/comment/<comment_id>/delete')
-def delete_comment_form_answer(comment_id):
+def delete_comment_form_answer(comment_id):  # form -> from
     comment = data_manager.get_comment(comment_id)[0]
     data_manager.delete_comment(comment_id)
     return redirect(f'/question/{comment["question_id"]}')
@@ -323,10 +324,10 @@ def users_list():
 def logged_in():
     return 'user_name' in session
 
-@app.route("/users/<user_name>", methods= ['GET', 'POST'])
+@app.route("/users/<user_name>", methods= ['GET', 'POST'])  # do we need POST?
 def show_user_details(user_name):
 
-    user_name = session['user_name']
+    user_name = session['user_name']  # We should use user_name passed as parameter to this function
     author = session['user_name']
     questions = data_manager.get_question_by_author(author)
     number_of_questions = len(questions)
@@ -344,9 +345,9 @@ def show_user_details(user_name):
                            number_of_comments=number_of_comments,
                            comments=comments)
 
-@app.route("/navigation", methods= ['GET', 'POST'])
+@app.route("/navigation", methods= ['GET', 'POST'])  # do we need POST?
 def navigation():
-    return render_template("navigation.html")
+    return render_template("navigation.html")  # Do we need route for this? Or should other htmls inherit from navigation?
 
 if __name__ == '__main__':
     app.run(debug=True)

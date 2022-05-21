@@ -9,7 +9,7 @@ def get_question(cursor, question_id):
         SELECT q.id, q.submission_time, q.view_number, q.vote_number, q.title, q.message, q.image
         FROM question q
         WHERE q.id = %s
-        ORDER BY id DESC;"""
+        ORDER BY id DESC;"""  # select author too
     cursor.execute(query, (question_id,))
     return cursor.fetchall()
 
@@ -162,6 +162,7 @@ def get_answer(cursor, answer_id):
 def insert_comment_answer(cursor, message, answer_id, question_id):
     query = """
         INSERT INTO comment (message, answer_id, question_id) values(%s, %s, %s);"""
+    # should be answer_id, author, without question_id
     cursor.execute(query, (message, answer_id, question_id))
 
 
@@ -450,3 +451,6 @@ def get_all_user_details(cursor, id, user_name, email):
 def get_users(cursor):
     cursor.execute('SELECT user_name, registration_date FROM users;')
     return cursor.fetchall()
+
+
+# Quite long file. Consider splitting it for user_data_manager, question_data_manager, ...

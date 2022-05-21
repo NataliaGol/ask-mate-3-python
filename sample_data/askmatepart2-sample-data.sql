@@ -115,6 +115,14 @@ ALTER TABLE ONLY comment
 ALTER TABLE ONLY question_tag
     ADD CONSTRAINT fk_tag_id FOREIGN KEY (tag_id) REFERENCES tag (id) ON DELETE CASCADE;
 
+-- We should add FOREIGN KEY constraints for user.
+-- Foreign key has to be primary key of parent table, so we could set user_name as PK for users table instead of id.
+-- Alternatively we could reference user by id in other tables.
+-- Skip ON DELETE CASCADE if you want the user-created content to remain in the db after deleting the author.
+ALTER TABLE ONLY question ADD CONSTRAINT fk_author_question FOREIGN KEY (author) REFERENCES users (user_name) ON DELETE CASCADE;
+ALTER TABLE ONLY answer ADD CONSTRAINT fk_author_answer FOREIGN KEY (author) REFERENCES users (user_name) ON DELETE CASCADE;
+ALTER TABLE ONLY comment ADD CONSTRAINT fk_author_comment FOREIGN KEY (author) REFERENCES users (user_name) ON DELETE CASCADE;
+
 
 ALTER TABLE IF EXISTS public.question
     ALTER COLUMN submission_time SET DEFAULT Current_timestamp;
