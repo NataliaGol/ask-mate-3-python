@@ -1,33 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Question with answer</title>
-</head>
-<body>
-<nav>
+{% extends "base.html" %}
+{% block title %}User's list{% endblock %}
+{% block content %}
 
-<br>
-    <span style="font-size:30px ;cursor:pointer" onclick="openNav()">&#9776; </span><br>
-    <a  class="hover-underline-animation" href='/list'>HOME</a>
-    <a  class="hover-underline-animation" href='/register'>REGISTER</a>
-    <a  class="hover-underline-animation"href='/login'>LOGIN</a>
-    <a  class="hover-underline-animation"href='/users'>USER_LIST</a>
-    <a  class="hover-underline-animation"href='/users/{{ session['user_name']  }}'>USER_PROFILE</a>
-
- </nav>
-<div class="searching">
-      <form class="searchbar" action="{{ url_for('search') }}" method='post'>
-        <input  type="text" id='search_phrase' placeholder="Search" name="search_phrase"
-               aria-label="Search" required>
-        <button class="bn3" type="submit">Search</button>
-           </form>
-    <a class="login_info">LOGGED AS: {{ session['user_name'] }}</a>
-      <form action='/logout'>
-            <label>
-                <input class="bn3" type="button"  value='logout'>
-            </label></form>
-</div>
 <div class="content">
     <link rel="stylesheet" href="/static/images/question.css">
 <br><br><br><br><br><br><br>
@@ -83,28 +57,16 @@
 
 
     <h2>Answers to question:</h2>
-
-
-
-
     {% for answer in answers %}
-
         <section>
-
-
 <table>
     <tr>
         <td>
-                <div class="ans-message">
-                {{ answer.message }}<br>
-
-                 </div><br>
+            <div class="ans-message"> {{ answer.message }}<br></div>
+            <br>
         </td>
-        <tr>
 
-        </tr>
 <tr><td>
-
             <h3>VOTING</h3>
   <div class="answers-container">
                 <div class="ans-votes">
@@ -116,7 +78,7 @@
                         <img src="/static/images/arrow-down.svg" alt="arrow-down">
                     </a>
                 </div>
-
+  </div>
 </td>
 </tr>
 </table>
@@ -176,6 +138,4 @@ function closeNav() {
 }
 </script>
 
-</body>
-
-</html>
+{% endblock %}

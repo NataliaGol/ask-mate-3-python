@@ -262,13 +262,13 @@ def register():
 
                 data_manager.register(full_name, user_name, email, hash_password(password))
                 flash(
-                    'You are now registered!')  # jak zrobic żeby ten flash wyświetlał się na stronie do której przekierowuje??
+                    'You are now registered!')
                 return redirect(url_for('show_questions'))
             else:
                 flash('Passwords are not the same, try again!')
                 return render_template('register.html')
         else:
-            flash('You are already registered! Log in!')  # jak zrobic żeby ten flash wyświetlał się na stronie do której przekierowuje??
+            flash('You are already registered! Log in!')
             return redirect('/login')
 
 def hash_password(password):
@@ -312,8 +312,13 @@ def logout():
 @app.route("/users", methods=["GET", "POST"])
 def users_list():
     if not logged_in():
-        abort(401)
+
+        return redirect('/login')
     users = data_manager.get_all_user_details('id', 'user_name', 'email')
+    # author = data_manager.get_all_user_details('id')
+    # questions = data_manager.get_question_by_author(author)
+    # number_of_questions = len(questions)
+
     # for user in users:
     #     author = data_manager.get_author('user_name')
     #     questions = data_manager.get_question_by_author('author')
@@ -325,7 +330,8 @@ def logged_in():
 
 @app.route("/users/<user_name>", methods= ['GET', 'POST'])
 def show_user_details(user_name):
-
+    if not logged_in():
+        return redirect('/login')
     user_name = session['user_name']
     author = session['user_name']
     questions = data_manager.get_question_by_author(author)
@@ -347,6 +353,10 @@ def show_user_details(user_name):
 @app.route("/navigation", methods= ['GET', 'POST'])
 def navigation():
     return render_template("navigation.html")
+
+@app.route("/demo")
+def demo():
+    return render_template("demo.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

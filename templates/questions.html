@@ -1,47 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="/static/images/question.css">
-      {%  for message in get_flashed_messages() %}
-            {{ message }}
-    {% endfor %}
-    <meta charset="UTF-8">
-    <title>Questions</title>
-</head>
-<body>
-
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <link rel="stylesheet" href="/static/images/question.css">#}
+{##}
+{#    <meta charset="UTF-8">#}
+{#    <title>Questions</title>#}
+{#</head>#}
+{#<body>#}
+{##}
 {##navigationbar#}
-<nav>
-<br>
-    <span style="font-size:30px ;cursor:pointer" onclick="openNav()">&#9776; </span><br>
-    <a  class="hover-underline-animation" href='/list'>HOME</a>
-    <a  class="hover-underline-animation" href='/register'>REGISTER</a>
-    <a  class="hover-underline-animation"href='/login'>LOGIN</a>
-    <a  class="hover-underline-animation"href='/users'>USER_LIST</a>
-    <a  class="hover-underline-animation"href='/users/{{ session['user_name']  }}'>USER_PROFILE</a>
-</nav>
-<div class="searching">
-      <form class="searchbar" action="{{ url_for('search') }}" method='post'>
-        <input  type="text" id='search_phrase' placeholder="Search" name="search_phrase"
-               aria-label="Search" required>
-        <button class="bn3" type="submit">Search</button>
-      </form>
-    <a class="login_info">LOGGED AS: {{ session['user_name'] }}</a>
+{#<nav>#}
+{#<br>#}
+{#    <span style="font-size:30px ;cursor:pointer" onclick="openNav()">&#9776; </span><br>#}
+{#    <a  class="hover-underline-animation" href='/list'>HOME</a>#}
+{#    <a  class="hover-underline-animation" href='/register'>REGISTER</a>#}
+{#    <a  class="hover-underline-animation"href='/login'>LOGIN</a>#}
+{#    <a  class="hover-underline-animation"href='/users'>USER_LIST</a>#}
+{#    <a  class="hover-underline-animation"href='/users/{{ session['user_name']  }}'>USER_PROFILE</a>#}
+{#</nav>#}
+{#<div class="searching">#}
+{#      <form class="searchbar" action="{{ url_for('search') }}" method='post'>#}
+{#        <input  type="text" id='search_phrase' placeholder="Search" name="search_phrase"#}
+{#               aria-label="Search" required>#}
+{#        <button class="bn3" type="submit">Search</button>#}
+{#      </form>#}
+{#    <a class="login_info">LOGGED AS: {{ session['user_name'] }}</a>#}
 {#      <form action='/logout'>#}
 {#            <label>#}
 {#                <input class="bn3" type="button"  value='logout'>#}
 {#            </label></form>#}
-
+{##}
 {#    <button onclick="location.href='/logout'" class="bn3" type="button"#}
 {#                        style="float: right;">Logout#}
 {#                </button>#}
- <form action='/logout'>
-            <label>
-                <input class="bn3" type="submit"  value='logout'>
-            </label></form>
-</div>
+{# <form action='/logout'>#}
+{#            <label>#}
+{#                <input class="bn3" type="submit"  value='logout'>#}
+{#            </label></form>#}
+{#</div>#}
 {##navigationbar#}
-
+{% extends "base.html" %}
+{% block title %}User's list{% endblock %}
+{% block content %}
 
 <div class="content">
 <br><br><br><br><br><br><br>
@@ -115,6 +115,9 @@ function closeNav() {
 }
 </script>
 {##navigationbar#}
-</body>
-</html>
+
+{# {%  for message in get_flashed_messages() %}#}
+{#          <p class="flashes">{{ message }}</p>#}
+{#    {% endfor %}#}
+{% endblock %}
 

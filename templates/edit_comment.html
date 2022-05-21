@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add question</title>
+{% extends "base.html" %}
+{% block title %}User's list{% endblock %}
+{% block content %}
 
-</head>
-<body>
 <div class="content">
+<br><br><br><br><br><br><br>
     <link rel="stylesheet" href="/static/images/question.css">
     <h1>ASK MATE</h1>
 
     <h2>Edit comment</h2>
     <form action="/comment/{{ comment.id }}/edit" method="post">
-        <label for="message">Answer:<br></label><br>
+        <label for="message"><br></label><br>
         <textarea id="message" name="message" rows="8" cols="110">{{ comment.message }}</textarea>
         <br><br><br>
         <button type="submit" class="bn3" >Submit your comment</button>
@@ -20,5 +17,4 @@
     <br>
     <br>
 </div>
-</body>
-</html>
+{% endblock %}

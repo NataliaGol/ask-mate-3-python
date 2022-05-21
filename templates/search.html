@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="/static/images/question.css">
-    <title>ASK MATE</title>
+{% extends "base.html" %}
+{% block title %}User's list{% endblock %}
+{% block content %}
 
-</head>
-<body>
 <div class="content">
-    <h1>Search results</h1>
+<br><br><br><br><br><br><br>
+    <h1>ASK MATE</h1>
 
     <h2>Results of searching for "{{ search_phrase }}":</h2>
-<h2>Results in questions:</h2>
     <section>
 
         {% for question in questions %}
@@ -25,7 +21,7 @@
                     {% for item in title_items %}
                         {{ item }}
                         {% if not loop.last %}
-                            <span class="search_phrase">{{ search_phrase }}</span>
+                            <em class="search_phrase">{{ search_phrase }}</em>
                         {% endif %}
                     {% endfor %}
                 </strong>
@@ -39,7 +35,7 @@
                 {% for item in message_items %}
                     {{ item }}
                     {% if not loop.last %}
-                        <span class="search_phrase">{{ search_phrase }}</span>
+                        <em class="search_phrase">{{ search_phrase }}</em>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -54,7 +50,7 @@
                             {% for item in question_items %}
                                 {{ item }}
                                 {% if not loop.last %}
-                                    <span class="search_phrase">{{ search_phrase }}</span>
+                                    <em class="search_phrase">{{ search_phrase }}</em>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -67,9 +63,8 @@
     <br>
 
     <form action='/list'>
-        <input class="bn3"  type='submit' value='Back'>
+        <input  class="bn3" type='submit' value='Back'>
 
     </form>
 </div>
-</body>
-</html>
+{% endblock %}

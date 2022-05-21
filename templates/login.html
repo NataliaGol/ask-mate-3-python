@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta charset="UTF-8">
-    <title>Login</title>
-
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
 
 <div class="content">
+<br><br><br><br><br><br><br>
     <link rel="stylesheet" href="/static/images/question.css">
-    {%  for message in get_flashed_messages() %}
-            {{ message }}
-    {% endfor %}
+
     <h1>ASK MATE</h1>
 
     <h2> Log in</h2>
@@ -31,5 +24,4 @@
     <br>
 
 </div>
-</body>
-</html>
+{% endblock %}

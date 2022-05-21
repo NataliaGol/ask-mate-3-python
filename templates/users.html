@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>USER'S DETAILS</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}User's list{% endblock %}
+{% block content %}
+
 <div class="content">
+<br><br><br><br><br><br><br>
 <link rel="stylesheet" href="/static/images/question.css">
 <h1>List of users:</h1>
 
@@ -20,7 +18,7 @@
 
 
         <td>
-        <strong>Questions submitted: </strong>0<br>
+        <strong>Questions submitted: {{ number_of_questions }}</strong>0<br>
         <strong>Answers submitted: </strong>0<br>
         <strong>Comments submitted: </strong>0
         </td>
@@ -28,7 +26,6 @@
 </table>
 </section>
     {% endfor %}
-
 </div>
-</body>
-</html>
+{% endblock %}
+

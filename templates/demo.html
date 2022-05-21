@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Moja strona{% endblock %}
+{% block content %}
+
+
+<div class="content">
+<br><br><br><br><br><br><br>
+
+    <link rel="stylesheet" href="/static/images/question.css">
+
+    <h1>User's profile for '{{ session['user_name'] }}'</h1>
+
+
+    <section>
+     <table>
+         <tr>
+        <td><strong>ID: </strong>{{ user.id }}</td>
+        <td><strong>NAME: </strong>{{ user.user_name }}</td>
+        <td><strong>EMAIL: </strong>{{ user.email }}</td>
+         </tr>
+     </table>
+    </section>
+    <h2>User's questions: {{ number_of_questions }}</h2>
+
+     {% for question in questions %}
+     <section>
+     <table>
+         <tr>
+             <td><strong>Question Title: </strong><a href="/question/{{ question.id }}" title="{{ question.title }}">{{ question.title }} </a></td></tr>
+<tr>
+    <td><strong>Question Message: </strong>{{ question.message }}</td>
+         </tr>
+     </table>
+    </section>
+    {% endfor %}
+
+    <h2>User's answers: {{ number_of_answers }} </h2>
+
+   {% for answer  in answers %}
+    <section>
+     <table>
+         <tr>
+    <td><strong>Answer Message: </strong><a href="/answer/{{ answer.id }}" title="{{ answer.message }}">{{ answer.message }} </a>
+
+    </td>
+         </tr>
+     </table>
+    </section>
+    {% endfor %}
+    <h2>User's comments: {{ number_of_comments }}</h2>
+
+  {% for comment  in comments %}
+    <section>
+    <table>
+         <tr>
+             <td><strong>Comment Message: </strong><a href="/question/{{ comment.question_id }}" title="{{ comment.message }}">{{ comment.message }} </a></td>
+         </tr>
+    </table>
+    </section>
+    {% endfor %}
+</div>
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href='/list'>Home</a>
+  <a href='/login'>Login</a>
+  <a href='/register'>Register</a>
+  <a href='/users'>Users</a>
+  <a href='/users/{{ session['user_name'] }}'>Profile</a>
+</div>
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+
+
+
+
+{% endblock %}
